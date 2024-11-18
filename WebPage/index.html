@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Correo</title>
+</head>
+<body>
+    <h1>Enviar Correo</h1>
+    <form id="emailForm">
+        <label for="to">Para:</label>
+        <input type="email" id="to" name="to" required><br>
+        <label for="subject">Asunto:</label>
+        <input type="text" id="subject" name="subject" required><br>
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" required></textarea><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const to = document.getElementById('to').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            const response = await fetch('/api/emails', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ to, subject, message })
+            });
+
+            if (response.ok) {
+                alert('Correo enviado y registrado correctamente.');
+            } else {
+                alert('Error al enviar el correo.');
+            }
+        });
+    </script>
+</body>
+</html>
